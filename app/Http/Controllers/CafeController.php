@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cafe;
+
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class CafeController extends Controller
 {
@@ -11,9 +14,28 @@ class CafeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-        //
+
+        if(!$req->ajax()) {
+            return view("cafe.index");
+        }
+        
+        $cafes = Cafe::all([
+            "cafe_name",
+            "location",
+            "distance",
+            "rating",
+        ]);
+        $data_tables = DataTables::of($cafes)
+            ->addIndexColumn()
+            ->addColumn('action', function($row) {
+                return '<a href="javascript:void(0)" class="edit btn btn-primary">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger">Delete</a>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+
+        return $data_tables;
     }
 
     /**
@@ -23,7 +45,7 @@ class CafeController extends Controller
      */
     public function create()
     {
-        //
+        return view("cafe.create");
     }
 
     /**
