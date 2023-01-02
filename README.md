@@ -17,5 +17,7 @@ and perhaps make some improvement.
 
 ### Todo
 - [ ] Make the front-end (this include home, dashboard, and cafe pages)
+- [ ] Make login and register front-end
+- [ ] Make the front-end (this include home, dashboard, and cafe pages)
 - [ ] Make the back-end (controllers)
-- [ ] Update breeze (auth) to include "admin" permission or seperating the user
+- [x] Update breeze (auth) to include "admin" permission or seperating the user
