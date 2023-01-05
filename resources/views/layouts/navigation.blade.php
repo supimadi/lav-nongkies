@@ -20,7 +20,7 @@
                         {{ __('Cafe') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('users')">
+                    <x-nav-link :href="route('users-index')" :active="request()->routeIs('users-index')">
                         {{ __('User') }}
                     </x-nav-link>
                 </div>
