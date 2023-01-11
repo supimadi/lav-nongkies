@@ -34,7 +34,7 @@ class CafeController extends Controller
         $data_tables = DataTables::of($cafes)
             ->addIndexColumn()
             ->addColumn('action', function($row) {
-                return '<a href="'.route("cafe-edit", ["id" => $row->id]).'">Edit</a>';
+                return '<a href="'.route("cafe-edit", ["id" => $row->id]).'">Edit</a> | <a href="'.route("review.show", ["id" => $row->id]).'">Review</a>';
             })
             ->rawColumns(['action'])
             ->make(true);

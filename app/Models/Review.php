@@ -13,5 +13,16 @@ class Review extends Model
         "reviewer_id",
         "cafe_id",
         "review",
+        "rating",
+    ];
+
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'rating' => 'decimal:2',
     ];
 }

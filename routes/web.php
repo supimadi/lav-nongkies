@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,8 +27,11 @@ Route::middleware('auth.is_admin')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get("/dashboard/get-user/{id?}", [ReviewController::class, "searchUser"])->name("search.user");
+    Route::get("/dashboard/get-cafe/{id?}", [ReviewController::class, "searchCafe"])->name("search.cafe");
 });
 
 require __DIR__.'/auth.php';
 require __DIR__.'/cafes.php';
+require __DIR__.'/reviews.php';
 require __DIR__.'/users.php';
