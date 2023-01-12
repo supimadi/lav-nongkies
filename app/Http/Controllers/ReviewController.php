@@ -31,7 +31,7 @@ class ReviewController extends Controller
             array_push($users, [
                 "id" => $u->id,
                 "text" => $u->name,
-                "selected" => $u->id == $id,
+                "selected" => true,
             ]);
         }
 
@@ -61,7 +61,8 @@ class ReviewController extends Controller
         }
 
         return response([
-            "results" => $cafes
+            "success" => true,
+            "results" => $cafes,
         ]);
     }
     
@@ -73,7 +74,9 @@ class ReviewController extends Controller
     public function create()
     {
         return view("reviews.create", [
-            "review" => new Review()
+            "review" => new Review(),
+            "cafe" => new Cafe(),
+            "user" => ""
         ]);
     }
     
@@ -122,6 +125,7 @@ class ReviewController extends Controller
         $review = DB::table('cafes as c')
             ->select(
                 'r.id as id',
+                'c.id as cafe_id',
                 'r.review as review',
                 'u.name as name',
                 'r.rating as rating',
@@ -134,7 +138,7 @@ class ReviewController extends Controller
         $dataTable = DataTables::of($review)
             ->addIndexColumn()
             ->addColumn('action', function($row) {
-                return '<a href="'.route("review.edit", ["id" => $row->id]).'">Edit</a> | <a class="text-red-800" href="'.route("review.destroy", ["id" => $row->id]).'">Remove</a>';
+                return '<a href="'.route("review.edit", ["review_id" => $row->id, "cafe_id" =>$row->cafe_id]).'">Edit</a> | <a class="text-red-800" href="'.route("review.destroy", ["id" => $row->id]).'">Remove</a>';
             })
             ->editColumn('review', function($review) {
                 return Str::limit($review->review, 20);
@@ -152,11 +156,16 @@ class ReviewController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($review_id, $cafe_id)
     {
-        $review = Review::find($id);
+        $review = Review::find($review_id);
+        $cafe = Cafe::find($cafe_id);
+        $user = User::find($review->reviewer_id);
+
         return view("reviews.create", [
-            "review" => $review
+            "review" => $review,
+            "cafe" => $cafe,
+            "user" => $user->name,
         ]);
     }
 
@@ -167,9 +176,24 @@ class ReviewController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $id)
     {
-        //
+        $req->validate([
+            "user" => ["required", "numeric"],
+            "cafe_name" => ["required", "numeric"],
+            "review" => ["required"],
+            "rating" => ["required", "numeric", "min:0", "max:5"],
+        ]);
+
+        $review = Review::find($id);
+
+        $review->reviewer_id = $req->user;
+        $review->cafe_id = $req->cafe_name;
+        $review->review = $req->review;
+        $review->rating = $req->rating;
+        $review->save();
+
+        return redirect()->route("review.show", ["id" => $req->cafe_name]);
     }
 
     /**
@@ -180,8 +204,9 @@ class ReviewController extends Controller
      */
     public function destroy($id)
     {
+        $review = Review::find($id);
         Review::find($id)->delete();
 
-        return redirect()->route("cafe-index");
+        return redirect()->route("review.show", ["id" => $review->cafe_id]);
     }
 }

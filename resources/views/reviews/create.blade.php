@@ -30,11 +30,11 @@
 
                 <!-- START FORM CONTAINER -->
                 <div class="p-6 mx-6">
-                    <form method="POST" id="cafe-form"
+                    <form method="POST" id="review-form"
                         @empty( $review->id )
                          action="{{ route('review.store') }}"
                         @else
-                         action="{{ route('cafe-update', $review->id) }}"
+                         action="{{ route('review.update', $review->id) }}"
                         @endempty
                     ">
                         @csrf
@@ -42,14 +42,18 @@
                         <!-- Cafe -->
                         <div>
                             <x-input-label for="cafe_name" :value="__('Nama Cafe')" />
-                            <select class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-full" id="cafe_name" name="cafe_name"></select>
+                            <select class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-full" id="cafe_name" name="cafe_name">
+                                <option value="{{ $cafe->id }}" selected="selected">{{ $cafe->cafe_name }}</option>                                                                   
+                            </select>
                             <x-input-error :messages="$errors->get('cafe_name')" class="mt-2" />
                         </div>
 
                         <!-- User -->
                         <div class="mt-4">
                             <x-input-label for="user" :value="__('Nama Reviewer')" />
-                            <select class="block mt-1 border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-full" id="user" name="user"></select>
+                            <select class="select block mt-1 border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-full" id="user" name="user">
+                                <option value="{{ $review->reviewer_id }}" selected="selected">{{ $user }}</option>                                                                   
+                            </select>
                             <x-input-error :messages="$errors->get('user')" class="mt-2" />
                         </div>
 
@@ -76,7 +80,6 @@
                                 <button type="submit" form="destroy-cafe" class="text-gray-500 hover:text-gray-800">Hapus Review</button>
                             @endempty
                             
-
                             <x-primary-button class="ml-4">
                                 @empty( $review->id )
                                     {{ __('Tambah Review') }} 
@@ -98,7 +101,7 @@
 
                 <script type="text/javascript">
                     let resetForm = () => {
-                        document.getElementById("cafe-form").reset();
+                        document.getElementById("review-form").reset();
                     }
                 </script>
 
@@ -107,21 +110,20 @@
     </div>
 
 </x-app-layout>
-
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script type="text/javascript">
+$(document).ready(() => {
     $("#cafe_name").select2({
         ajax: {
-            url: `{{ route('search.cafe') }}`,
+            url: `{{ route('search.cafe', $review->cafe_id) }}`,
             dataType: 'json'
         }
     });
-
     $("#user").select2({
         ajax: {
-            url: `{{ route('search.user', Auth::user()->id) }}`,
+            url: `{{ route('search.user', $review->reviewer_id) }}`,
             dataType: 'json'
         }
     });
-
+})
 </script>
