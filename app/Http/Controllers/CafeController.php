@@ -73,6 +73,7 @@ class CafeController extends Controller
             "distance" => ['required', 'numeric'],
             "image" => ['required', 'mimes:jpg,jpeg,png,bmp,webp,gif'],
             "is_open_24h" => ['required'],
+            "description" => ['required'],
         ]);
 
         // Store the image and get the path

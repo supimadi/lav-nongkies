@@ -1,5 +1,4 @@
 <x-nongkies-layout>
-
     <div class=" m-8 ml-8 w-8/12 grid grid-rows-1 md:grid-cols-2 gap-6">
         <div class="drop-shadow-md">
             <img class="rounded w-100" src="{{ asset($cafe->image) }}" alt="">
@@ -19,19 +18,9 @@
             <!-- Button Group -->
             <div class="mt-5">
                 <x-green-anchor href="{{ $cafe->gmaps_link }}">Find Me</x-green-anchor>
+                <x-orange-anchor href="{{ route('home.show.review', $cafe->id) }}">Reviews</x-orange-anchor>
                 <a class="ml-3" href="/">Back</a>
-            </div>
-
-            <!-- Review Group -->
-            <div class="mt-5 rounded">
-                <div class="bg-orange-700 rounded-t p-3 text-white font-semibold">Review</div>
-                <div class="flex justify-center w-full">
-                  <ul class="bg-white rounded-b border border-gray-200 w-full text-gray-900">
-                    @foreach($review as $r)
-                        <li class="px-6 py-2 border-b border-gray-200 w-full">{{ $r->review }} <span class="ml-3 text-sm bg-emerald-800 rounded text-white px-1">{{ $r->rating }}</span></li>
-                    @endforeach
-                  </ul>
-                </div>
+                
             </div>
         </div>
     </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +24,15 @@ Route::middleware("auth.is_admin")->group(function() {
         Route::post("/store", [ReviewController::class, "store"])->name("review.store");
         Route::post("/update/{id}", [ReviewController::class, "update"])->name("review.update");
     });
+});
+
+Route::middleware("auth")->group(function() {
+    Route::prefix("review")->group(function() {
+        Route::get("/create/{cafe_id}", [HomePageController::class, "createReview"])->name("home.create.review");
+        Route::post("/store", [HomePageController::class, "storeReview"])->name("home.store.review");
+    });
+});
+
+Route::prefix("review")->group(function() {
+    Route::get("/{cafe_id}", [HomePageController::class, "showReview"])->name("home.show.review");
 });
