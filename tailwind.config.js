@@ -13,7 +13,9 @@ module.exports = {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
-
+            backgroundImage: {
+                'doodle-texture': "url('/images/doodle-bg.png')",
+            },
             colors: {
                 "n-green": "#679289",
                 "n-orange": "#B35D44",

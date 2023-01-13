@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CafeController;
+use App\Http\Controllers\HomePageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +21,11 @@ Route::middleware("auth.is_admin")->group(function() {
         Route::get("/edit/{id}", [CafeController::class, "edit"])->name("cafe-edit");
 
         Route::post("/store", [CafeController::class, "store"])->name("cafe-store");
-        Route::post("/update/{id}", [CafeController::class, "edit"])->name("cafe-update");
+        Route::post("/update/{id}", [CafeController::class, "update"])->name("cafe-update");
         Route::post("/destroy/{id}", [CafeController::class, "destroy"])->name("cafe-destroy");
     });
+});
+
+Route::prefix("cafe")->group(function() {
+    Route::get("/{cafe_id}", [HomePageController::class, "showCafe"])->name("home.show.cafe");
 });

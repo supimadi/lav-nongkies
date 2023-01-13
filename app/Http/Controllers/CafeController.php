@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cafe;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class CafeController extends Controller
@@ -35,6 +36,9 @@ class CafeController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($row) {
                 return '<a href="'.route("cafe-edit", ["id" => $row->id]).'">Edit</a> | <a href="'.route("review.show", ["id" => $row->id]).'">Review</a>';
+            })
+            ->editColumn('distance', function($cafe) {
+                return $cafe->distance.' km';
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -72,7 +76,7 @@ class CafeController extends Controller
         ]);
 
         // Store the image and get the path
-        $img_path = $req->image->store("images");
+        $img_path = Storage::put('images/', $req->image);
 
         Cafe::create([
             "cafe_name" => $req->cafe_name,
@@ -82,6 +86,7 @@ class CafeController extends Controller
             "is_open_24h" => $req->is_open_24h,
             "rating" => 0,
             "image" => $img_path,
+            "description" => $req->description,
         ]);
 
         return redirect()->route($this->DEFAULT_ROUTE_NAME);
@@ -113,7 +118,7 @@ class CafeController extends Controller
         $cafe = Cafe::find($id);
 
         // Store the image and get the path
-        $img_path = $req->image->store("images");
+        $img_path = Storage::put('images', $req->image);
 
         $cafe->cafe_name = $req->cafe_name;
         $cafe->location = $req->location;
@@ -121,6 +126,7 @@ class CafeController extends Controller
         $cafe->distance = $req->distance;
         $cafe->is_open_24h = $req->is_open_24h;
         $cafe->image = $img_path;
+        $cafe->description = $req->description;
 
         $cafe->save();
 

@@ -17,5 +17,6 @@ class Cafe extends Model
         "is_open_24h",
         "rating",
         "image",
+        "description",
     ];
 }

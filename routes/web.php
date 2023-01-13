@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name("home");
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name("home");
+
+Route::get("/", [HomePageController::class, "home"])->name("home");
 
 Route::middleware('auth.is_admin')->group(function () {
     // Profile Route
@@ -26,9 +29,11 @@ Route::middleware('auth.is_admin')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get("/dashboard/get-user/{id?}", [ReviewController::class, "searchUser"])->name("search.user");
-    Route::get("/dashboard/get-cafe/{id?}", [ReviewController::class, "searchCafe"])->name("search.cafe");
+    Route::prefix("/dashboard")->group(function() {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get("/get-user/{id?}", [ReviewController::class, "searchUser"])->name("search.user");
+        Route::get("/get-cafe/{id?}", [ReviewController::class, "searchCafe"])->name("search.cafe");
+    });
 });
 
 require __DIR__.'/auth.php';

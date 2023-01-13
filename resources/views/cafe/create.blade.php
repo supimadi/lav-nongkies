@@ -91,6 +91,14 @@
                             <x-input-error :messages="$errors->get('image')" class="mt-2" />
                         </div>
 
+    
+                        <!-- Description -->
+                        <div class="mt-4">
+                            <x-input-label for="description" :value="__('Deskripsi Cafe')" />
+                            <textarea id="description" name="description" class="w-full rounded">{{ $cafe->description }}</textarea>
+                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                        </div>
+
                         <!-- Open 24 Hours -->
                         <div class="block mt-4">
                             <label for="is_open_24h" class="inline-flex items-center">
