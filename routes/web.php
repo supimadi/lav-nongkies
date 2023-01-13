@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 // })->name("home");
 
 Route::get("/", [HomePageController::class, "home"])->name("home");
+Route::get("/search-cafe", [HomePageController::class, "searchCafe"])->name("search.cafes");
 
 Route::middleware('auth.is_admin')->group(function () {
     // Profile Route
@@ -40,3 +41,4 @@ require __DIR__.'/auth.php';
 require __DIR__.'/cafes.php';
 require __DIR__.'/reviews.php';
 require __DIR__.'/users.php';
+require __DIR__.'/messages.php';

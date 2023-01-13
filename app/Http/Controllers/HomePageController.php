@@ -11,7 +11,34 @@ class HomePageController extends Controller
 {
     public function home()
     {
-        return view("home");
+        $cafe = Cafe::orderBy('rating', 'desc')->get();
+
+        return view("home", [
+            "cafe" => $cafe,
+        ]);
+    }
+
+    public function searchCafe(Request $req)
+    {
+        if(!$req->ajax()) {
+            return response([
+                "success" => false,
+                "messages" => "Just accept ajax request."
+            ], 403);
+        }
+
+
+        if ($req->q == "") {
+            $cafes = Cafe::all();
+        } else {
+            $cafes = Cafe::where("cafe_name", "like", '%'.$req->q.'%')->get();
+        }
+
+        return response([
+            "success" => true,
+            "data" => $cafes
+        ]);
+
     }
 
     public function showCafe($cafe_id)

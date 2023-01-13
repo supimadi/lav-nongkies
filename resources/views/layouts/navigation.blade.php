@@ -21,6 +21,10 @@
                     <x-nav-link :href="route('users-index')" :active="request()->routeIs('users-index')">
                         {{ __('User') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('messages.index')" :active="request()->routeIs('messages.index')">
+                        {{ __('Message') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -83,6 +87,10 @@
 
             <x-responsive-nav-link :href="route('users-index')" :active="request()->routeIs('users-index')">
                 {{ __('User') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('messages.index')" :active="request()->routeIs('messages.index')">
+                {{ __('Message') }}
             </x-responsive-nav-link>
         </div>
 
