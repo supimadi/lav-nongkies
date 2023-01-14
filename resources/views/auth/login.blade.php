@@ -14,10 +14,12 @@
                     <div class="">
                         <label class="mb-2 block" for="">Email</label>
                         <input type="email" name="email" class="inline-block w-1/2 border border-black rounded-lg p-2.5 leading-none" placeholder="Email"/>
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
                     <div class="mt-3">
                         <label class="mb-2 block" for="">Kata sandi</label>
                         <input type="password" name="password" class="inline-block w-1/2 border border-black rounded-lg p-2.5 leading-none" placeholder="Kata sandi"/>
+                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
                     <div class="flex justify-start mt-5 gap-3 items-center">
                         <button type="submit" class="border bg-red-500 text-white p-1  rounded-lg px-6 hover:scale-105">Masuk</button>

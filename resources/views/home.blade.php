@@ -43,11 +43,22 @@
                         <a class="lg:text-black lg:hover:text-gray-200 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-md uppercase font-bold hover:underline" href="#about">About</a>
                     </li>
                     <li class="flex items-center">
-                        <a class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-md uppercase font-bold" href="#home">
-                            <button class="bg-sky-100 hover:bg-sky-200 text-emerald-500 font-bold py-2 px-4 rounded-full">
-                                Login
-                            </button>
-                        </a>
+                        <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            @if(Auth::check())
+                                <button type="submit" class="bg-sky-100 hover:bg-sky-200 text-emerald-500 font-bold py-2 px-4 rounded-full">
+                                    Logout
+                                </button>
+                            @else
+                                <a class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-md uppercase font-bold" href="#home">
+                                    <button class="bg-sky-100 hover:bg-sky-200 text-emerald-500 font-bold py-2 px-4 rounded-full">
+                                        Login
+                                    </button>
+                                </a>
+                            @endif
+                        </form>
                     </li>
                 </ul>
             </div>
@@ -280,7 +291,7 @@
                             <a href="#reserve" class="hover:underline">Reserve</a>
                         </li>
                         <li>
-                            <a href="" class="hover:underline">Login</a>
+                            <a href="{{ route('login') }}" class="hover:underline">Login</a>
                         </li>
                     </ul>
                 </div>
@@ -353,11 +364,8 @@
                     `);
                 }
             },
-
         });
     });
-    
-
     </script>
 
     <script type="text/javascript">
