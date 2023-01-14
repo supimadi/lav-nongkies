@@ -31,7 +31,7 @@ Route::middleware('auth.is_admin')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::prefix("/dashboard")->group(function() {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('', [DashboardController::class, 'index'])->name('dashboard');
         Route::get("/get-user/{id?}", [ReviewController::class, "searchUser"])->name("search.user");
         Route::get("/get-cafe/{id?}", [ReviewController::class, "searchCafe"])->name("search.cafe");
     });
